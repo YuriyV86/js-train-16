@@ -94,7 +94,7 @@ function warnAboutMaxArrayLength(arr, maxLength) {
     console.warn(`Увага! Довжина масиву перевищує максимально допустиму!`);
   } 
   else {
-    console.warn(`Довжина масиву не перевищує максимально допустиму.`);
+    console.info(`Довжина масиву не перевищує максимально допустиму.`);
   };
 }
 
@@ -116,9 +116,9 @@ function compareArrays(arr1, arr2) {
   // Сортуємо масиви за зростанням.
   // Оскільки напряму порівняти масиви за допомогою оператора === не можно, перетворимо ії в json і порівняємо
   // Використовуємо `console.assert()`, щоб вивести помилку, якщо масиви не однакові.
-  arr1.sort();
-  arr2.sort();
-  console.assert(arr1 === arr2, 'Масиви не однакові')
+  arr1.sort((a, b) => a - b);
+  arr2.sort((a, b) => a - b);
+  console.assert(JSON.stringify(arr1) === JSON.stringify(arr2), "Масиви не однакові!");
 }
 
 console.log("Завдання: 4 ==============================");
@@ -247,16 +247,11 @@ function validateUserInput(userInput) {
   // Перевіремо умову наявності імені користувача, якщо воно відсутнє виводимо "Помилка: ім'я користувача відсутнє!"
   // Перевіремо умову наявності паролю, якщо він відсутній виводимо "Помилка: пароль відсутній!"
   // Перевірка довжини паролю чи менше вона ніж 8,якщо ні виводимо повідомлення про потенційну проблему з текстом "Попередження: пароль має бути довшим за 8 символів!"
-  if (!userInput.hasOwnProperty('username')) {
-    console.error(`Помилка: ім'я користувача відсутнє!`);
-  }
+  console.assert(userInput.username, "Помилка: ім'я користувача відсутнє!");
+  console.assert(userInput.password, "Помилка: пароль відсутній!");
 
-  if (!userInput.hasOwnProperty('password')) {
-    console.error(`Помилка: пароль відсутній!`);
-  }
-
-  if (!userInput.password.length < 8) {
-    console.warn(`Попередження: пароль має бути довшим за 8 символів!`);
+  if (userInput.password && userInput.password.length < 8) {
+    console.warn("Попередження: пароль має бути довшим за 8 символів!");
   }
 }
 
